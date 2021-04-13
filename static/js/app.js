@@ -3,36 +3,32 @@ d3.json('samples.json').then(data => {
   console.log(data);
 })
 
-console.log(names);
-console.log(metadata);
-console.log(samples);
+let tableNames = data.names;
+let tableMeta = data.metadata;
+let tableSamples = data.samples;
+console.log(tableNames);
+console.log(tableMeta);
+console.log(tableSamples);
 
 //Part 2: Create a visual Bar Chart
 function filterSamples(person) {
   return parseInt(person.sample_values) >= 40;
 }
 
-var filteredSamples = data.filter(samples);
-
+var filteredSamples = tableSamples.filter(filterSamples);
 console.log(filteredSamples);
 
-// 3. Use the map method with the arrow function to return all the filtered cities.
-var cities = filteredCities.map(city => city.City);
-
-//  Check your filtered cities
-console.log(cities);
-
-// 4. Use the map method with the arrow function to return all the filtered cities population.
-var population = filteredCities.map(city => city.population);
-
-//  Check the populations of your filtered cities
-console.log(population);
-
+var ids = filteredSamples.map(person => person.otu_ids);
+var values = filteredSamples.map(person => person.sample_values);
+var labels = filteredSamples.map(person => person.otu_labels);
+console.log(ids);
+console.log(values);
+console.log(labels);
 
 var bar_stats = {
-    x: out_ids,
-    y: sample_values,
-    hoverinfo: out_labels,
+    x: ids,
+    y: values,
+    hoverinfo: labels,
     type: "bar"
 };
   
@@ -43,17 +39,20 @@ var bar_layout = {
     xaxis: { title: "City" },
     yaxis: { title: "2017 Population"}
 };
+
+console_log(bar_data);
+console_log(bar_layout);
   
 Plotly.newPlot("bar-plot", bar_data, bar_layout);
 
 //Part 3: Create a vicual Bubble Chart
 var bubble_stats = {
-  x: out_ids,
-  y: sample_values,
+  x: ids,
+  y: values,
   mode: 'markers',
   marker: {
-    color: sample_values,
-    size: sample_values
+    color: values,
+    size: values
   }
 };
 
@@ -66,6 +65,46 @@ var bubble_layout = {
   showlegend: false,
 };
 
+console.log(bubble_data)
+console.log(bubble_layout)
+
 Plotly.newPlot('myDiv', bubble_data, bubble_layout);
 
 //Part 4: 
+let button = d3.select("#well");
+
+const runEnter = () => {
+
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
+
+  // Select the input element and get the raw HTML node
+  // Get the value property of the input element
+  let inputElement = d3.select("#selDataset"),
+      inputValue = inputElement.property("value");
+
+  console.log(inputValue);
+
+  let selectedData = tableMeta.filter(person => person.id === inputValue);
+
+  console.log(selectedData);
+
+  // Next, use math.js to calculate the mean, median, mode, var, and std of the ages
+  let id_s = selectedData.map(info => info.id),
+      ethnic = selectedData.map(info => info.ethnicity),
+      ages = selectedData.map(info => info.age),
+      sex = selectedData.map(info => info.gender),
+      place = selectedData.map(info => info.location),
+      bb_type = selectedData.map(info => info.bbtype),
+      wr_freq = selectedData.map(info => info.wrfreq);
+
+  // Then, select the unordered list element by class name
+  let list = d3.select(".pannel-body");
+  list.html("");
+
+  const stats = {id: id_s, ethnicity: ethnic, gender: sex, age: ages, location: place, bbtype: bb_type, wrfreq: wr_freq};
+  Object.entries(stats).forEach(([stat, value]) => list.append("li").text(`${stat}: ${value}`));
+};
+
+// Create event handlers
+button.on("click", runEnter);
