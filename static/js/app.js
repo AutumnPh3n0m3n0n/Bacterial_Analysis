@@ -1,14 +1,20 @@
 //Part 1: Import the data from sample.json
-d3.json('samples.json').then(data => {
+d3.json('./static/js/samples.json').then(data => {
   console.log(data);
-})
 
-let tableNames = data.names;
-let tableMeta = data.metadata;
-let tableSamples = data.samples;
-console.log(tableNames);
-console.log(tableMeta);
-console.log(tableSamples);
+  let tableNames = data.names;
+  let tableMeta = data.metadata;
+  let tableSamples = data.samples;
+  console.log(tableNames);
+  console.log(tableMeta);
+  console.log(tableSamples);
+
+// let tableNames = data.names;
+// let tableMeta = data.metadata;
+// let tableSamples = data.samples;
+// console.log(tableNames);
+// console.log(tableMeta);
+// console.log(tableSamples);
 
 //Part 2: Create a visual Bar Chart
 function filterSamples(person) {
@@ -40,10 +46,10 @@ var bar_layout = {
     yaxis: { title: "2017 Population"}
 };
 
-console_log(bar_data);
-console_log(bar_layout);
+console.log(bar_data);
+console.log(bar_layout);
   
-Plotly.newPlot("bar-plot", bar_data, bar_layout);
+Plotly.newPlot("bar", bar_data, bar_layout);
 
 //Part 3: Create a vicual Bubble Chart
 var bubble_stats = {
@@ -68,7 +74,7 @@ var bubble_layout = {
 console.log(bubble_data)
 console.log(bubble_layout)
 
-Plotly.newPlot('myDiv', bubble_data, bubble_layout);
+Plotly.newPlot('bubble', bubble_data, bubble_layout);
 
 //Part 4: 
 let button = d3.select("#well");
@@ -108,3 +114,5 @@ const runEnter = () => {
 
 // Create event handlers
 button.on("click", runEnter);
+
+})
