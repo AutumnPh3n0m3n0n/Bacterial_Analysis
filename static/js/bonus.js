@@ -2,23 +2,23 @@ var data = [
   {
     type: "indicator",
     mode: "gauge+number+delta",
-    value: 420,
+    value: 4.5,
     title: { text: "Speed", font: { size: 24 } },
-    delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
+    delta: { reference: 6, increasing: { color: "RebeccaPurple" } },
     gauge: {
-      axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
+      axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
       bar: { color: "darkblue" },
       bgcolor: "white",
       borderwidth: 2,
       bordercolor: "gray",
       steps: [
-        { range: [0, 250], color: "cyan" },
-        { range: [250, 400], color: "royalblue" }
+        { range: [0, 4], color: "cyan" },
+        { range: [4, 9], color: "royalblue" }
       ],
       threshold: {
         line: { color: "red", width: 4 },
         thickness: 0.75,
-        value: 490
+        value: 4.5
       }
     }
   }
@@ -32,4 +32,4 @@ var layout = {
   font: { color: "darkblue", family: "Arial" }
 };
 
-Plotly.newPlot('myDiv', data, layout);
+Plotly.newPlot('gauge', data, layout);
